@@ -4,7 +4,7 @@ import { useTheme } from '@/lib/context/theme-context';
 import { JSONInput } from '@/components/JSONInput';
 import { JSONFormatter } from '@/components/JSONFormatter';
 import { Button } from '@/components/ui/button';
-import { useState, useRef, useCallback, useEffect } from 'react';
+import { useState, useRef, useCallback, useEffect, Suspense } from 'react';
 import { IJSONInputRef } from '@/components/JSONInput/types';
 import { Moon, Sun, Clipboard, Settings as SettingsIcon } from 'lucide-react';
 import Link from 'next/link';
@@ -17,7 +17,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { useSearchParams } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 
-function Home() {
+function HomeContent() {
   const { theme, toggleTheme, mounted } = useTheme();
   const [jsonInput, setJsonInput] = useState('');
   const [error, setError] = useState<string>();
@@ -48,13 +48,6 @@ function Home() {
         if (parsedState.size) setFontSize(parsedState.size);
         toast({
           title: 'URL State Loaded',
-          description: 'JSON and settings have been loaded from the URL',
-        });
-      } else {
-        toast({
-          title: 'Error',
-          description: 'Failed to load state from URL',
-          variant: 'destructive',
         });
       }
     }
@@ -217,6 +210,12 @@ function Home() {
   );
 }
 
-Home.displayName = 'Home';
+HomeContent.displayName = 'HomeContent';
 
-export default Home;
+export default function Home() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <HomeContent />
+    </Suspense>
+  );
+}

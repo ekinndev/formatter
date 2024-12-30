@@ -25,20 +25,25 @@ export const useJsonWorker = ({ onSuccess, onError }: UseJsonWorkerProps) => {
 
         const blob = new Blob([workerCode], { type: 'application/javascript' });
         const workerUrl = URL.createObjectURL(blob);
+        console.log('Worker created:', workerUrl);
         const worker = new Worker(workerUrl);
 
         worker.onmessage = function (e) {
+          console.log('Worker message received:', e.data);
           if (e.data.success) {
             onSuccess(e.data.data);
           } else {
             onError(e.data.error);
           }
+          console.log('Terminating worker:', workerUrl);
           worker.terminate();
           URL.revokeObjectURL(workerUrl);
         };
 
         worker.onerror = function (error) {
+          console.error('Worker error:', error);
           onError(error.message);
+          console.log('Terminating worker due to error:', workerUrl);
           worker.terminate();
           URL.revokeObjectURL(workerUrl);
         };
