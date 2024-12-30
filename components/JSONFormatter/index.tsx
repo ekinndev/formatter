@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { IJSONFormatterProps } from './types';
 import { formatJSON, downloadJSON } from './utils';
 import { Loader2, Copy, Check, Download, Share2 } from 'lucide-react';
@@ -23,34 +23,38 @@ export const JSONFormatter: React.FC<IJSONFormatterProps> = ({
   const [error, setError] = useState<string>();
   const [copied, setCopied] = useState(false);
   const { toast } = useToast();
+  const [formattedResult, setFormattedResult] = useState(() => formatJSON(value, indentSize));
+  const previousValueRef = useRef(value);
+  const previousIndentRef = useRef(indentSize);
 
   // Use web worker for large JSON files (> 100KB)
   const shouldUseWorker = value.length > 100000;
   const { formatJson } = useJsonWorker({
-    onSuccess: formatted => {
-      const result = formatJSON(formatted, indentSize);
-      setFormattedResult(result);
+    onSuccess: (formatted: string) => {
+      setFormattedResult(formatJSON(formatted, indentSize));
       setError(undefined);
     },
-    onError: errorMessage => {
+    onError: (errorMessage: string) => {
       setError(errorMessage);
       setFormattedResult({ formatted: value, error: errorMessage });
     },
   });
 
-  const [formattedResult, setFormattedResult] = useState(() => formatJSON(value, indentSize));
-
   useEffect(() => {
-    if (shouldUseWorker) {
-      formatJson(value, indentSize);
-    } else {
-      setFormattedResult(formatJSON(value, indentSize));
+    // Only update if value or indentSize has changed
+    if (previousValueRef.current !== value || previousIndentRef.current !== indentSize) {
+      previousValueRef.current = value;
+      previousIndentRef.current = indentSize;
+
+      if (shouldUseWorker) {
+        formatJson(value, indentSize);
+      } else {
+        const result = formatJSON(value, indentSize);
+        setFormattedResult(result);
+        setError(result.error);
+      }
     }
   }, [value, indentSize, shouldUseWorker, formatJson]);
-
-  useEffect(() => {
-    setError(formattedResult.error);
-  }, [formattedResult.error]);
 
   const handleCopy = async () => {
     if (!value.trim()) {
@@ -70,7 +74,7 @@ export const JSONFormatter: React.FC<IJSONFormatterProps> = ({
         title: 'Success',
         description: 'JSON copied to clipboard',
       });
-    } catch (err) {
+    } catch {
       toast({
         title: 'Error',
         description: 'Failed to copy: Invalid JSON',
@@ -95,7 +99,7 @@ export const JSONFormatter: React.FC<IJSONFormatterProps> = ({
         title: 'Success',
         description: 'JSON file downloaded successfully',
       });
-    } catch (err) {
+    } catch {
       toast({
         title: 'Error',
         description: 'Failed to download: Invalid JSON',
@@ -139,7 +143,7 @@ export const JSONFormatter: React.FC<IJSONFormatterProps> = ({
         title: 'Success',
         description: 'Shareable link copied to clipboard',
       });
-    } catch (err) {
+    } catch {
       toast({
         title: 'Error',
         description: 'Failed to share: Invalid JSON',
