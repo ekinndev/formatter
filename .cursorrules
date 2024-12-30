@@ -1,0 +1,113 @@
+# JSON Beautifier Project Rules
+
+## File Structure
+
+- Components should be placed in `components/` directory
+- Reusable UI components should be in `components/ui/`
+- Utility functions should be in `lib/utils/`
+- Hooks should be in `hooks/`
+- Types should be in `types/`
+- Constants should be in `lib/constants/`
+
+## Naming Conventions
+
+- Components: PascalCase (e.g., JSONInput, JSONFormatter)
+- Functions: camelCase
+- Files: kebab-case for pages, PascalCase for components
+- Constants: UPPER_SNAKE_CASE
+- Types/Interfaces: PascalCase with 'T' prefix for types, 'I' for interfaces
+
+## Component Rules
+
+- Each component should have its own directory with:
+  - index.tsx (main component)
+  - types.ts (component types)
+  - styles.module.css (if needed)
+  - utils.ts (component-specific utilities)
+  - test.tsx (component tests)
+
+## Code Style
+
+- Use TypeScript strict mode
+- Use ES6+ features
+- Prefer const over let
+- Use optional chaining
+- Use nullish coalescing
+- Use early returns
+- Max line length: 100 characters
+
+## Performance Rules
+
+- Use React.memo for expensive computations
+- Implement virtualization for large datasets
+- Use web workers for heavy computations
+- Implement proper error boundaries
+- Use proper React hooks dependencies
+
+## State Management
+
+- Use React Context for theme/settings
+- Use URL state for sharing
+- Use local state for component-specific data
+- Implement proper state persistence
+
+## Testing Requirements
+
+- Unit tests for utilities
+- Integration tests for components
+- E2E tests for critical flows
+- Accessibility tests
+- Performance tests
+
+## Accessibility Rules
+
+- All interactive elements must be keyboard accessible
+- Use proper ARIA labels
+- Maintain proper heading hierarchy
+- Ensure proper color contrast
+- Support screen readers
+
+## Error Handling
+
+- Implement proper error boundaries
+- Use toast notifications for user feedback
+- Log errors properly
+- Provide user-friendly error messages
+- Handle edge cases gracefully
+
+## Documentation
+
+- JSDoc for functions and components
+- README for each component
+- Inline comments for complex logic
+- Type documentation
+- Usage examples
+
+## Security
+
+- Sanitize JSON input
+- Validate user input
+- Handle large files safely
+- Implement proper CSP
+- No sensitive data in logs
+
+## Performance Metrics
+
+- First contentful paint < 1.5s
+- Time to interactive < 3.5s
+- Lighthouse score > 90
+- Bundle size < 200KB (initial load)
+- JSON parsing < 100ms for 1MB file
+
+## Dependencies
+
+- Next.js
+- TypeScript
+- Tailwind CSS
+- ShadcN UI
+- React
+- ESLint
+- Prettier
+- Jest
+- Testing Library
+- Cypress
