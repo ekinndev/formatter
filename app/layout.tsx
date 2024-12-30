@@ -6,7 +6,7 @@ import '@/styles/globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'JSON Beautifier',
+  title: 'FormatterAI',
   description: 'A powerful tool to format and beautify JSON data',
 };
 

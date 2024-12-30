@@ -6,7 +6,7 @@ import { JSONFormatter } from '@/components/JSONFormatter';
 import { Button } from '@/components/ui/button';
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { IJSONInputRef } from '@/components/JSONInput/types';
-import { Moon, Sun, Clipboard, Github, Settings as SettingsIcon } from 'lucide-react';
+import { Moon, Sun, Clipboard, Settings as SettingsIcon } from 'lucide-react';
 import Link from 'next/link';
 import { Settings } from '@/components/Settings';
 import { FONT_FAMILIES } from '@/components/Settings/types';
@@ -120,7 +120,7 @@ function Home() {
           <div className='container flex h-14 max-w-screen-2xl items-center'>
             <div className='mr-4 flex'>
               <Link className='mr-6 flex items-center space-x-2' href='/'>
-                <span className='font-bold inline-block'>JSON Beautifier</span>
+                <span className='font-bold inline-block'>FormatterAI</span>
               </Link>
             </div>
             <div className='flex flex-1 items-center space-x-2 justify-end'>
@@ -139,11 +139,6 @@ function Home() {
               <Button variant='ghost' size='icon' onClick={toggleTheme} className='h-8 w-8' disabled={!mounted}>
                 {mounted && (theme === 'light' ? <Moon className='h-4 w-4' /> : <Sun className='h-4 w-4' />)}
               </Button>
-              <Button variant='ghost' size='icon' asChild className='h-8 w-8'>
-                <a href='https://github.com/ekinndev/json-beautifier' target='_blank' rel='noopener noreferrer'>
-                  <Github className='h-4 w-4' />
-                </a>
-              </Button>
             </div>
           </div>
         </header>
@@ -151,7 +146,7 @@ function Home() {
         {/* Main Content */}
         <main className='container max-w-screen-2xl mx-auto py-6 px-4'>
           <div className='mb-8'>
-            <h1 className='text-3xl font-bold tracking-tight'>JSON Beautifier</h1>
+            <h1 className='text-3xl font-bold tracking-tight'>FormatterAI</h1>
             <p className='text-muted-foreground mt-2'>
               Format, validate, and beautify your JSON with ease. Copy, download, or share your formatted JSON
               instantly.
@@ -216,13 +211,6 @@ function Home() {
         </main>
 
         {/* Footer */}
-        <footer className='border-t border-border/40 py-6 mt-12'>
-          <div className='container max-w-screen-2xl mx-auto px-4'>
-            <p className='text-sm text-muted-foreground text-center'>
-              Built with Next.js, Tailwind CSS, and ShadcN UI. Open source on GitHub.
-            </p>
-          </div>
-        </footer>
       </div>
       <Toaster />
     </>
